@@ -4,7 +4,7 @@ import { voteAnecdote } from '../reducers/anecdoteReducer'
 import { showInfoMessage   } from '../reducers/notificationReducer'
 
 
-const Anecdote = ({ anecdote, handleClick }) => {
+const Anecdote = ({ anecdote }) => {
   const dispatch = useDispatch()
 
   const vote = (anecdote) => {
@@ -25,12 +25,14 @@ const Anecdote = ({ anecdote, handleClick }) => {
 
 
 const AnecdoteList = () => {
-  const anecdotes = useSelector(state => state.anecdotes)
-    .sort((a,b) => b.votes - a.votes)
+  const state = useSelector(state => state)
+  const filteredAnecdotes =state.anecdotes
+      .filter((a) => a.content.includes(state.filter))
+      .sort((a,b) => b.votes - a.votes)
   return(
     <div>
       <h2>Anecdotes</h2>
-      {anecdotes.map(anecdote =>
+      {filteredAnecdotes.map(anecdote =>
         <Anecdote key={anecdote.id} anecdote={anecdote}/>
       )}
     </div>
