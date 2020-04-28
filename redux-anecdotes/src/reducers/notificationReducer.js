@@ -1,13 +1,6 @@
 import { store } from '../store.js'
 
-const notificationAtStart = [
-  /*{
-    content: 'Start reading anecdotes',
-  }
-  */  
-]
-
-export const createNotification = (content) => {
+const createNotification = (content) => {
   return {
     type: 'NEW_INFO',
     data: {
@@ -16,7 +9,7 @@ export const createNotification = (content) => {
   }
 }
 
-export const removeNotification = (content) => {
+const removeNotification = (content) => {
   return {
     type: 'REMOVE_INFO',
     data: {
@@ -25,7 +18,7 @@ export const removeNotification = (content) => {
   }
 }
 
-const notificationReducer = (state = notificationAtStart, action) => {
+const notificationReducer = (state = '', action) => {
   console.log('state now: ', state)
   console.log('action', action)
   switch(action.type) {

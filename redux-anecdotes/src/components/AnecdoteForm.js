@@ -6,12 +6,15 @@ import { showInfoMessage } from '../reducers/notificationReducer'
 const AnecdoteForm = (props) => {
   const dispatch = useDispatch()
   
-  const addAnecdote = (event) => {
+  const addAnecdote = async (event) => {
     event.preventDefault()
-    const content = event.target.content.value
+    const newAnecdote = {
+      content: event.target.content.value,
+      votes: 0
+    }
     event.target.content.value = ''
-    dispatch(createAnecdote(content))
-    showInfoMessage(`${content} created`)
+    await dispatch(createAnecdote(newAnecdote))
+    showInfoMessage(`${newAnecdote.content} created`)
   }
 
   return (
