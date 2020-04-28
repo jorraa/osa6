@@ -2,16 +2,16 @@
 
 const createNotification = (content) => {
   return {
-    type: 'NEW_INFO',
+    type: 'NEW_NOTIFICATION',
     data: {
       content: content
     }
   }
 }
 
-const removeNotification = (content) => {
+const clearNotification = (content) => {
   return {
-    type: 'REMOVE_INFO',
+    type: 'CLEAR_NOTIFICATION',
     data: {
       content: content,
     }
@@ -22,23 +22,25 @@ const notificationReducer = (state = '', action) => {
   console.log('state now: ', state)
   console.log('action', action)
   switch(action.type) {
-    case 'NEW_INFO':
-      return [...state, action.data]
-    case 'REMOVE_INFO':
-      return state.filter((n) => n.content !== action.data.content)
+    case 'NEW_NOTIFICATION':
+      return [action.data]
+    case 'CLEAR_NOTIFICATION':
+      return []
   
     default:
       return state
   }
 }
-
+let timeoutID = 0
 export const setNotification = (content, timeout) => {
-console.log('setNotif', content, timeout)  
+  if(timeoutID) {
+    clearTimeout(timeoutID)
+  }
   return async dispatch => {
     dispatch(createNotification(content))
-    setTimeout(() => {
-      dispatch(removeNotification(content))
-    }, timeout*1000) 
+    timeoutID = setTimeout(() => {
+      dispatch(clearNotification())
+    }, timeout*1000)  
   }
 }
 
